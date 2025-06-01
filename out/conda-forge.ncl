@@ -902,7 +902,15 @@ let rec _js2n__-refsenv
       appveyor
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ])
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
         | doc m%"
           AppVeyor CI settings. This is usually read-only and should not normally be
           manually modified. Tools like conda-smithy may modify this, as needed.
@@ -947,12 +955,15 @@ let rec _js2n__-refsenv
                       maxParallel: 1
           ```
           
-          Below is an example configuration for adding a swapfile on an Azure agent for Linux:
+          Below is an example configuration for adding a swapfile on an Azure agent for Linux and Windows:
           
           ```yaml
           azure:
               settings_linux:
                   swapfile_size: 10GiB
+              settings_win:
+                  variables:
+                      SET_PAGEFILE: 'True'
           ```
           
           If you need more space on Windows, you can use `C:` at the cost of IO performance:
@@ -966,52 +977,7 @@ let rec _js2n__-refsenv
           ```
         "%
         | optional,
-      bot
-        | Dyn
-        | doc m%"
-          This dictates the behavior of the conda-forge auto-tick bot which issues
-          automatic version updates/migrations for feedstocks.
-          A valid example is:
-          
-          ```yaml
-          bot:
-              # can the bot automerge PRs it makes on this feedstock
-              automerge: true
-              # only automerge on successful version PRs, migrations are not automerged
-              automerge: 'version'
-              # only automerge on successful migration PRs, versions are not automerged
-              automerge: 'migration'
-          
-              # only open PRs if resulting environment is solvable, useful for tightly coupled packages
-              check_solvable: true
-          
-              # The bot.inspection key in the conda-forge.yml can have one of seven possible values and controls
-              # the bots behaviour for automatic dependency updates:
-              inspection: hint  # generate hints using source code (backwards compatible)
-              inspection: hint-all  # generate hints using all methods
-              inspection: hint-source  # generate hints using only source code
-              inspection: hint-grayskull  # generate hints using only grayskull
-              inspection: update-all  # update recipe using all methods
-              inspection: update-source  # update recipe using only source code
-              inspection: update-grayskull  # update recipe using only grayskull
-              inspection: disabled # don't update recipe, don't generate hints
-          
-              # any branches listed in this section will get bot migration PRs in addition
-              # to the default branch
-              abi_migration_branches:
-                  - 'v1.10.x'
-          
-              version_updates:
-                  # use this for packages that are updated too frequently
-                  random_fraction_to_keep: 0.1  # keeps 10% of versions at random
-                  exclude:
-                      - '08.14'
-          ```
-          
-          The `abi_migration_branches` feature is useful to, for example, add a
-          long-term support (LTS) branch for a package.
-        "%
-        | optional,
+      bot | Dyn | optional,
       build_platform
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -1090,7 +1056,15 @@ let rec _js2n__-refsenv
       circle
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ])
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
         | doc m%"
           Circle CI settings. This is usually read-only and should not normally be
           manually modified. Tools like conda-smithy may modify this, as needed.
@@ -1315,7 +1289,15 @@ let rec _js2n__-refsenv
       matrix
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ])
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
         | doc m%"
           Build matrices were used to specify a set of build configurations to run for each
           package pinned dependency. This has been deprecated in favor of the `provider` field.
@@ -1671,7 +1653,15 @@ let rec _js2n__-refsenv
       travis
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ])
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
         | doc m%"
           Travis CI settings. This is usually read-only and should not normally be
           manually modified. Tools like conda-smithy may modify this, as needed.

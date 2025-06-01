@@ -1105,6 +1105,7 @@ let rec _js2n__-refsenv
                 'DOCKERFILE_DOCKERFILELINT,
                 'DART_DARTANALYZER,
                 'C_CPPLINT,
+                'C_CPPCHECK,
                 'C_CLANG_FORMAT,
                 'CSS_STYLELINT,
                 'CSS_SCSSLINT,
@@ -1113,6 +1114,7 @@ let rec _js2n__-refsenv
                 'CSHARP_CSHARPIER,
                 'CREDENTIALS_SECRETLINT,
                 'CPP_CPPLINT,
+                'CPP_CPPCHECK,
                 'CPP_CLANG_FORMAT,
                 'COPYPASTE_JSCPD,
                 'COFFEE_COFFEELINT,
@@ -2024,6 +2026,53 @@ let rec _js2n__-refsenv
         | Array (String)
         | doc "List of env variables explicitly not filtered before calling CPP_CLANG_FORMAT and its pre/post commands"
         | optional,
+      CPP_CPPCHECK_ARGUMENTS
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "CPP_CPPCHECK: User custom arguments to add in linter CLI call"
+        | optional,
+      CPP_CPPCHECK_CLI_EXECUTABLE | Array (String) | optional,
+      CPP_CPPCHECK_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'file |]
+        | optional,
+      CPP_CPPCHECK_COMMAND_REMOVE_ARGUMENTS
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "CPP_CPPCHECK: User custom arguments to remove before calling linter"
+        | optional,
+      CPP_CPPCHECK_DISABLE_ERRORS | Bool | optional,
+      CPP_CPPCHECK_DISABLE_ERRORS_IF_LESS_THAN | Number | optional,
+      CPP_CPPCHECK_FILE_EXTENSIONS | Array (String) | optional,
+      CPP_CPPCHECK_FILE_NAMES_REGEX | Array (String) | optional,
+      CPP_CPPCHECK_FILTER_REGEX_EXCLUDE | String | optional,
+      CPP_CPPCHECK_FILTER_REGEX_INCLUDE | String | optional,
+      CPP_CPPCHECK_POST_COMMANDS
+        | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      CPP_CPPCHECK_PRE_COMMANDS
+        | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      CPP_CPPCHECK_UNSECURED_ENV_VARIABLES
+        | Array (String)
+        | doc "List of env variables explicitly not filtered before calling CPP_CPPCHECK and its pre/post commands"
+        | optional,
       CPP_CPPLINT_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -2448,6 +2497,53 @@ let rec _js2n__-refsenv
         | Array (String)
         | doc "List of env variables explicitly not filtered before calling C_CLANG_FORMAT and its pre/post commands"
         | optional,
+      C_CPPCHECK_ARGUMENTS
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "C_CPPCHECK: User custom arguments to add in linter CLI call"
+        | optional,
+      C_CPPCHECK_CLI_EXECUTABLE | Array (String) | optional,
+      C_CPPCHECK_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'file |]
+        | optional,
+      C_CPPCHECK_COMMAND_REMOVE_ARGUMENTS
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "C_CPPCHECK: User custom arguments to remove before calling linter"
+        | optional,
+      C_CPPCHECK_DISABLE_ERRORS | Bool | optional,
+      C_CPPCHECK_DISABLE_ERRORS_IF_LESS_THAN | Number | optional,
+      C_CPPCHECK_FILE_EXTENSIONS | Array (String) | optional,
+      C_CPPCHECK_FILE_NAMES_REGEX | Array (String) | optional,
+      C_CPPCHECK_FILTER_REGEX_EXCLUDE | String | optional,
+      C_CPPCHECK_FILTER_REGEX_INCLUDE | String | optional,
+      C_CPPCHECK_POST_COMMANDS
+        | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      C_CPPCHECK_PRE_COMMANDS
+        | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      C_CPPCHECK_UNSECURED_ENV_VARIABLES
+        | Array (String)
+        | doc "List of env variables explicitly not filtered before calling C_CPPCHECK and its pre/post commands"
+        | optional,
       C_CPPLINT_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -2803,6 +2899,10 @@ let rec _js2n__-refsenv
         | Array
           _js2n__-refsenv."_js2n__-:definitions/enum_descriptor_keys!contract"
         | doc "If ENABLE is not set, all descriptors are activated by default. If set, all linters of listed descriptors will be activated by default"
+        | optional,
+      ENABLE_ERRORS_LINTERS
+        | Array _js2n__-refsenv."_js2n__-:definitions/enum_linter_keys!contract"
+        | doc "If ENABLE_ERRORS_LINTERS is set, only the listed linters will be considered as blocking"
         | optional,
       ENABLE_LINTERS
         | Array _js2n__-refsenv."_js2n__-:definitions/enum_linter_keys!contract"

@@ -931,6 +931,112 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.strings.pattern "^0.1$"
                   ]),
           },
+      "_js2n__-:definitions/yawl.AIAgent!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "agentConfig", "tasks" ],
+              _js2n__-prdslib.records.record
+                {
+                  agentConfig =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.AIAgentConfig!predicate"
+                        ],
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
+                  input = _js2n__-prdslib.isType '"String",
+                  next = _js2n__-prdslib.isType '"String",
+                  output = _js2n__-prdslib.isType '"String",
+                  retryPolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
+                        ],
+                  tasks =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.AIAgentTask!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
+                  timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.AIAgentConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "backstory", "goal", "role" ],
+              _js2n__-prdslib.records.record
+                {
+                  backstory = _js2n__-prdslib.isType '"String",
+                  goal = _js2n__-prdslib.isType '"String",
+                  model =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.AIAgentModel!predicate"
+                        ],
+                  role = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.AIAgentModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "name" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "uri" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  uri = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.AIAgentTask!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "description", "result" ],
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  result = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/yawl.Branch!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -954,6 +1060,167 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/yawl.CatchRule!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "errorList", "next", "output" ],
+              _js2n__-prdslib.records.record
+                {
+                  errorList =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.enum
+                              [
+                                "ALL",
+                                "INVALID_INPUT",
+                                "CANCELLED",
+                                "TERMINATED",
+                                "TIMEOUT",
+                                "STEP_DATA_LIMIT_EXCEEDED",
+                                "STEP_NO_CHOICE_MATCHED",
+                                "STEP_PERMISSION_DENIED",
+                                "STEP_TIMEOUT",
+                                "STEP_INVALID_OUTPUT",
+                                "STEP_INTERNAL",
+                                "STEP_INVALID_TEMPLATE_EXPRESSION",
+                                "STEP_FAIL",
+                                "STEP_INVALID_ARGUMENT",
+                                "STEP_QUOTA_EXCEEDED",
+                                "STEP_FAILED_PRECONDITION",
+                                "HTTP_CALL_400",
+                                "HTTP_CALL_401",
+                                "HTTP_CALL_402",
+                                "HTTP_CALL_403",
+                                "HTTP_CALL_404",
+                                "HTTP_CALL_405",
+                                "HTTP_CALL_406",
+                                "HTTP_CALL_407",
+                                "HTTP_CALL_408",
+                                "HTTP_CALL_409",
+                                "HTTP_CALL_410",
+                                "HTTP_CALL_411",
+                                "HTTP_CALL_412",
+                                "HTTP_CALL_413",
+                                "HTTP_CALL_414",
+                                "HTTP_CALL_415",
+                                "HTTP_CALL_416",
+                                "HTTP_CALL_417",
+                                "HTTP_CALL_418",
+                                "HTTP_CALL_419",
+                                "HTTP_CALL_420",
+                                "HTTP_CALL_421",
+                                "HTTP_CALL_422",
+                                "HTTP_CALL_423",
+                                "HTTP_CALL_424",
+                                "HTTP_CALL_425",
+                                "HTTP_CALL_426",
+                                "HTTP_CALL_427",
+                                "HTTP_CALL_428",
+                                "HTTP_CALL_429",
+                                "HTTP_CALL_431",
+                                "HTTP_CALL_449",
+                                "HTTP_CALL_451",
+                                "HTTP_CALL_499",
+                                "HTTP_CALL_500",
+                                "HTTP_CALL_501",
+                                "HTTP_CALL_505",
+                                "HTTP_CALL_502",
+                                "HTTP_CALL_503",
+                                "HTTP_CALL_504",
+                                "HTTP_CALL_506",
+                                "HTTP_CALL_507",
+                                "HTTP_CALL_508",
+                                "HTTP_CALL_509",
+                                "HTTP_CALL_510",
+                                "HTTP_CALL_511",
+                                "HTTP_CALL_520",
+                                "HTTP_CALL_521",
+                                "HTTP_CALL_522",
+                                "HTTP_CALL_523",
+                                "HTTP_CALL_524",
+                                "HTTP_CALL_525",
+                                "HTTP_CALL_526",
+                                "GRPC_CALL_CANCELLED",
+                                "GRPC_CALL_DEADLINE_EXCEEDED",
+                                "GRPC_CALL_UNIMPLEMENTED",
+                                "GRPC_CALL_UNAVAILABLE",
+                                "GRPC_CALL_UNKNOWN",
+                                "GRPC_CALL_INTERNAL",
+                                "GRPC_CALL_RESOURCE_EXHAUSTED",
+                                "GRPC_CALL_UNAUTHENTICATED",
+                                "GRPC_CALL_INVALID_OPTIONS",
+                                "GRPC_CALL_INVALID_REFLECTION_SERVER_RESPONSE",
+                                "FUNCTION_CALL_INVALID_RESPONSE",
+                                "CONTAINER_CALL_400",
+                                "CONTAINER_CALL_401",
+                                "CONTAINER_CALL_402",
+                                "CONTAINER_CALL_403",
+                                "CONTAINER_CALL_404",
+                                "CONTAINER_CALL_405",
+                                "CONTAINER_CALL_406",
+                                "CONTAINER_CALL_407",
+                                "CONTAINER_CALL_408",
+                                "CONTAINER_CALL_409",
+                                "CONTAINER_CALL_410",
+                                "CONTAINER_CALL_411",
+                                "CONTAINER_CALL_412",
+                                "CONTAINER_CALL_413",
+                                "CONTAINER_CALL_414",
+                                "CONTAINER_CALL_415",
+                                "CONTAINER_CALL_416",
+                                "CONTAINER_CALL_417",
+                                "CONTAINER_CALL_418",
+                                "CONTAINER_CALL_419",
+                                "CONTAINER_CALL_420",
+                                "CONTAINER_CALL_421",
+                                "CONTAINER_CALL_422",
+                                "CONTAINER_CALL_423",
+                                "CONTAINER_CALL_424",
+                                "CONTAINER_CALL_425",
+                                "CONTAINER_CALL_426",
+                                "CONTAINER_CALL_427",
+                                "CONTAINER_CALL_428",
+                                "CONTAINER_CALL_429",
+                                "CONTAINER_CALL_431",
+                                "CONTAINER_CALL_449",
+                                "CONTAINER_CALL_451",
+                                "CONTAINER_CALL_499",
+                                "CONTAINER_CALL_500",
+                                "CONTAINER_CALL_501",
+                                "CONTAINER_CALL_505",
+                                "CONTAINER_CALL_502",
+                                "CONTAINER_CALL_503",
+                                "CONTAINER_CALL_504",
+                                "CONTAINER_CALL_506",
+                                "CONTAINER_CALL_507",
+                                "CONTAINER_CALL_508",
+                                "CONTAINER_CALL_509",
+                                "CONTAINER_CALL_510",
+                                "CONTAINER_CALL_511",
+                                "CONTAINER_CALL_520",
+                                "CONTAINER_CALL_521",
+                                "CONTAINER_CALL_522",
+                                "CONTAINER_CALL_523",
+                                "CONTAINER_CALL_524",
+                                "CONTAINER_CALL_525",
+                                "CONTAINER_CALL_526",
+                                "YDB_CALL_SERVICE_UNAVAILABLE"
+                              ])
+                        ],
+                  errorListMode =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "INCLUDE", "EXCLUDE" ]
+                        ],
+                  next = _js2n__-prdslib.isType '"String",
+                  output = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/yawl.Choice!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -973,6 +1240,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   body = _js2n__-prdslib.isType '"String",
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   containerId = _js2n__-prdslib.isType '"String",
                   headers =
                     _js2n__-prdslib.allOf
@@ -1056,6 +1332,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "oauthToken", "path" ],
               _js2n__-prdslib.records.record
                 {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   download =
                     _js2n__-prdslib.allOf
                         [
@@ -1075,6 +1360,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
                         ],
+                  sharedDiskId = _js2n__-prdslib.isType '"String",
                   timeout =
                     _js2n__-prdslib.allOf
                         [
@@ -1101,7 +1387,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                          _js2n__-prdslib.enum
+                            [ "BINARY", "JSON", "TEXT", "EXCEL", "CSV" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1117,7 +1404,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                          _js2n__-prdslib.enum
+                            [ "BINARY", "JSON", "TEXT", "EXCEL", "CSV" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1189,6 +1477,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "modelUrl" ],
               _js2n__-prdslib.records.record
                 {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   generate =
                     _js2n__-prdslib.allOf
                         [
@@ -1287,6 +1584,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "functionId" ],
               _js2n__-prdslib.records.record
                 {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   functionId = _js2n__-prdslib.isType '"String",
                   input = _js2n__-prdslib.isType '"String",
                   next = _js2n__-prdslib.isType '"String",
@@ -1316,6 +1622,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   body = _js2n__-prdslib.isType '"String",
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   endpoint = _js2n__-prdslib.isType '"String",
                   headers =
                     _js2n__-prdslib.allOf
@@ -1353,6 +1668,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   body = _js2n__-prdslib.isType '"String",
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   headers =
                     _js2n__-prdslib.allOf
                         [
@@ -1485,6 +1809,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   bucket = _js2n__-prdslib.isType '"String",
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   get =
                     _js2n__-prdslib.allOf
                         [
@@ -1529,7 +1862,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                          _js2n__-prdslib.enum
+                            [ "BINARY", "JSON", "TEXT", "EXCEL", "CSV" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1545,7 +1879,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                          _js2n__-prdslib.enum
+                            [ "BINARY", "JSON", "TEXT", "EXCEL", "CSV" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1624,6 +1959,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "destination", "fromAddress" ],
               _js2n__-prdslib.records.record
                 {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   destination =
                     _js2n__-prdslib.allOf
                         [
@@ -1770,6 +2114,9 @@ let rec _js2n__-refsenv
                               [
                                 "ALL",
                                 "INVALID_INPUT",
+                                "CANCELLED",
+                                "TERMINATED",
+                                "TIMEOUT",
                                 "STEP_DATA_LIMIT_EXCEEDED",
                                 "STEP_NO_CHOICE_MATCHED",
                                 "STEP_PERMISSION_DENIED",
@@ -1924,6 +2271,43 @@ let rec _js2n__-refsenv
                   retryCount = _js2n__-prdslib.isType 'Integer,
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/yawl.StartWorkflow!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "workflowId" ],
+              _js2n__-prdslib.records.record
+                {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
+                  executionInput = _js2n__-prdslib.isType '"String",
+                  input = _js2n__-prdslib.isType '"String",
+                  next = _js2n__-prdslib.isType '"String",
+                  output = _js2n__-prdslib.isType '"String",
+                  retryPolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
+                        ],
+                  timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$"
+                        ],
+                  workflowId = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/yawl.Step!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2044,10 +2428,35 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.required [ "disk" ],
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "workflow" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "while" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "aiAgent" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
                     ]
                 ],
               _js2n__-prdslib.records.record
                 {
+                  aiAgent =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.AIAgent!predicate"
+                        ],
                   containerCall =
                     _js2n__-prdslib.allOf
                         [
@@ -2161,6 +2570,20 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} false
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/yawl.Wait!predicate"
+                        ],
+                  while =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.While!predicate"
+                        ],
+                  workflow =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.StartWorkflow!predicate"
                         ],
                   ydbDocument =
                     _js2n__-prdslib.allOf
@@ -2281,6 +2704,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "oauthToken" ],
               _js2n__-prdslib.records.record
                 {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   createComment =
                     _js2n__-prdslib.allOf
                         [
@@ -2664,6 +3096,50 @@ let rec _js2n__-refsenv
                   until = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/yawl.While!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "do" ],
+              _js2n__-prdslib.records.record
+                {
+                  condition = _js2n__-prdslib.isType '"String",
+                  do =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.WhileDo!predicate"
+                        ],
+                  input = _js2n__-prdslib.isType '"String",
+                  maxIterations = _js2n__-prdslib.isType 'Integer,
+                  next = _js2n__-prdslib.isType '"String",
+                  output = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.WhileDo!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "start", "steps" ],
+              _js2n__-prdslib.records.record
+                {
+                  start = _js2n__-prdslib.isType '"String",
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.minProperties 1,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.records.record {} {} false
+                                  _js2n__-prdslib.never,
+                                _js2n__-refsenv."_js2n__-:definitions/yawl.Step!predicate"
+                              ])
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/yawl.YDBDocument!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2698,6 +3174,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "database", "tableName" ],
               _js2n__-prdslib.records.record
                 {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   database = _js2n__-prdslib.isType '"String",
                   get =
                     _js2n__-prdslib.allOf
@@ -2804,6 +3289,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "database", "topic" ],
               _js2n__-prdslib.records.record
                 {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   database = _js2n__-prdslib.isType '"String",
                   input = _js2n__-prdslib.isType '"String",
                   next = _js2n__-prdslib.isType '"String",
@@ -2858,6 +3352,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "queueArn" ],
               _js2n__-prdslib.records.record
                 {
+                  catch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/yawl.CatchRule!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
                   input = _js2n__-prdslib.isType '"String",
                   next = _js2n__-prdslib.isType '"String",
                   output = _js2n__-prdslib.isType '"String",

@@ -1010,7 +1010,7 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.maximum 18,
+                      _js2n__-prdslib.numbers.maximum 19,
                       _js2n__-prdslib.numbers.minimum 1
                     ]
                 ])
@@ -1088,6 +1088,13 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.isType 'Record,
                         _js2n__-prdslib.records.record
                           {
+                            allowed_signers =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.isType '"String")
+                                  ],
                             branch =
                               _js2n__-prdslib.anyOf
                                   [
@@ -1141,6 +1148,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType 'Null
                                   ],
                             refspec = _js2n__-prdslib.isType '"String",
+                            signed = _js2n__-prdslib.isType '"Bool",
                             tag =
                               _js2n__-prdslib.anyOf
                                   [
@@ -1165,6 +1173,47 @@ let rec _js2n__-refsenv
                   ])
             ])
         | doc "Definitions of all available repos and layers. The layers are appended to the ``bblayers.conf`` sorted by the repository name first and then by the layer name."
+        | optional,
+      signers
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        fingerprint =
+                          _js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.maxLength 40,
+                                    _js2n__-prdslib.strings.minLength 40
+                                  ],
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.maxLength 50,
+                                    _js2n__-prdslib.strings.minLength 50
+                                  ]
+                              ],
+                        gpg_keyserver = _js2n__-prdslib.isType '"String",
+                        path = _js2n__-prdslib.isType '"String",
+                        repo = _js2n__-prdslib.always,
+                        type =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum [ "gpg", "ssh" ]
+                              ],
+                      } {} false _js2n__-prdslib.never
+                  ])
+            ])
+        | doc "Specification of the repository signature verification."
         | optional,
       target
         | _js2n__-prdslib.contract_from_predicate

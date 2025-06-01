@@ -1010,6 +1010,7 @@ let rec _js2n__-refsenv
                             [
                               "auto",
                               "latest",
+                              "sdk-52",
                               "sdk-51",
                               "sdk-50",
                               "sdk-49",

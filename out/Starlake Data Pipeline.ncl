@@ -1022,6 +1022,7 @@ let rec _js2n__-refsenv
                   dsvOptions =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                   duckDbEnableExternalAccess = _js2n__-prdslib.isType '"Bool",
+                  duckdbExtensions = _js2n__-prdslib.isType '"String",
                   duckdbMode = _js2n__-prdslib.isType '"Bool",
                   duckdbPath =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
@@ -1367,6 +1368,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/AllSinksV1!predicate",
                   sql =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  streams =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
                   table =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   tags =
@@ -2493,6 +2501,13 @@ let rec _js2n__-refsenv
                         ],
                   sample =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  streams =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
                   tags =
                     _js2n__-prdslib.allOf
                         [

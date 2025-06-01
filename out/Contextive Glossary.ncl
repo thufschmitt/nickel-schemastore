@@ -898,81 +898,116 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  {
-      contexts
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.anyOf
             [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required [ "terms" ],
-                    _js2n__-prdslib.records.record
-                      {
-                        domainVisionStatement =
-                          _js2n__-prdslib.isType '"String",
-                        name = _js2n__-prdslib.isType '"String",
-                        paths =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String"),
-                                _js2n__-prdslib.arrays.minItems 1,
-                                _js2n__-prdslib.arrays.uniqueItems
-                              ],
-                        terms =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.required
-                                        [ "name" ],
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          aliases =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"Array",
-                                                  _js2n__-prdslib.arrays.arrayOf
-                                                    (_js2n__-prdslib.isType
-                                                      '"String"),
-                                                  _js2n__-prdslib.arrays.minItems
-                                                    1,
-                                                  _js2n__-prdslib.arrays.uniqueItems
-                                                ],
-                                          definition =
-                                            _js2n__-prdslib.isType '"String",
-                                          examples =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"Array",
-                                                  _js2n__-prdslib.arrays.arrayOf
-                                                    (_js2n__-prdslib.isType
-                                                      '"String"),
-                                                  _js2n__-prdslib.arrays.minItems
-                                                    1,
-                                                  _js2n__-prdslib.arrays.uniqueItems
-                                                ],
-                                          name =
-                                            _js2n__-prdslib.isType '"String",
-                                        } {} true _js2n__-prdslib.always
-                                    ]),
-                                _js2n__-prdslib.arrays.minItems 1,
-                                _js2n__-prdslib.arrays.uniqueItems
-                              ],
-                      } {} true _js2n__-prdslib.always
-                  ]),
-              _js2n__-prdslib.arrays.minItems 1,
-              _js2n__-prdslib.arrays.uniqueItems
-            ])
-        | doc "A list of contexts - see https://docs.contextive.tech/ide/guides/setting-up-glossaries/.",
-      ..
-    }
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.records.required [ "imports" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      imports =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String"),
+                              _js2n__-prdslib.arrays.minItems 1,
+                              _js2n__-prdslib.arrays.uniqueItems
+                            ],
+                    } {} true _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.records.required [ "contexts" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      contexts =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "terms" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        domainVisionStatement =
+                                          _js2n__-prdslib.isType '"String",
+                                        name = _js2n__-prdslib.isType '"String",
+                                        paths =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String"),
+                                                _js2n__-prdslib.arrays.minItems
+                                                  1,
+                                                _js2n__-prdslib.arrays.uniqueItems
+                                              ],
+                                        terms =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.required
+                                                        [ "name" ],
+                                                      _js2n__-prdslib.records.record
+                                                        {
+                                                          aliases =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"Array",
+                                                                  _js2n__-prdslib.arrays.arrayOf
+                                                                    (_js2n__-prdslib.isType
+                                                                      '"String"),
+                                                                  _js2n__-prdslib.arrays.minItems
+                                                                    1,
+                                                                  _js2n__-prdslib.arrays.uniqueItems
+                                                                ],
+                                                          definition =
+                                                            _js2n__-prdslib.isType
+                                                                '"String",
+                                                          examples =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"Array",
+                                                                  _js2n__-prdslib.arrays.arrayOf
+                                                                    (_js2n__-prdslib.isType
+                                                                      '"String"),
+                                                                  _js2n__-prdslib.arrays.minItems
+                                                                    1,
+                                                                  _js2n__-prdslib.arrays.uniqueItems
+                                                                ],
+                                                          name =
+                                                            _js2n__-prdslib.isType
+                                                                '"String",
+                                                        } {} true
+                                                        _js2n__-prdslib.always
+                                                    ]),
+                                                _js2n__-prdslib.arrays.minItems
+                                                  1,
+                                                _js2n__-prdslib.arrays.uniqueItems
+                                              ],
+                                      } {} true _js2n__-prdslib.always
+                                  ]),
+                              _js2n__-prdslib.arrays.minItems 1,
+                              _js2n__-prdslib.arrays.uniqueItems
+                            ],
+                    } {} true _js2n__-prdslib.always
+                ]
+            ],
+          _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+        ])

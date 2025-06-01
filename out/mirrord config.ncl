@@ -921,7 +921,7 @@ let rec _js2n__-refsenv
           
           4. If none of the above match, use the default behavior (mode).
           
-          For more information, check the file operations [technical reference](https://mirrord.dev/docs/reference/fileops/).
+          For more information, check the file operations [technical reference](https://metalbear.co/mirrord/docs/reference/fileops/).
           
           ```json { "feature": { "fs": { "mode": "write", "read_write": ".+\\.json" , "read_only": [ ".+\\.yaml", ".+important-file\\.txt" ], "local": [ ".+\\.js", ".+\\.mjs" ], "not_found": [ "\\.config/gcloud" ] } } } ```
         "%
@@ -1291,6 +1291,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  override_host_ip =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/CopyTargetFileConfig!predicate" =
@@ -1440,7 +1446,7 @@ let rec _js2n__-refsenv
           
           Which environment variables to load from the remote pod are controlled by setting either [`include`](#feature-env-include) or [`exclude`](#feature-env-exclude).
           
-          See the environment variables [reference](https://mirrord.dev/docs/reference/env/) for more details.
+          See the environment variables [reference](https://metalbear.co/mirrord/docs/reference/env/) for more details.
           
           ```json { "feature": { "env": { "include": "DATABASE_USER;PUBLIC_ENV;MY_APP_*", "exclude": "DATABASE_PASSWORD;SECRET_ENV", "override": { "DATABASE_CONNECTION": "db://localhost:7777/my-db", "LOCAL_BEAR": "panda" }, "mapping": { ".+_TIMEOUT": "1000" } } } } ```
         "%
@@ -1538,6 +1544,12 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-prdslib.numbers.minimum 0
                         ],
+                  ignore_system_proxy_config =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   readlink =
                     _js2n__-prdslib.anyOf
                         [
@@ -1587,6 +1599,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  host_ip =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   idle_timeout =
                     _js2n__-prdslib.allOf
                         [
@@ -1637,7 +1655,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Controls mirrord features.
           
-          See the [technical reference, Technical Reference](https://mirrord.dev/docs/reference/) to learn more about what each feature does.
+          See the [technical reference, Technical Reference](https://metalbear.co/mirrord/docs/reference/) to learn more about what each feature does.
           
           The [`env`](#feature-env), [`fs`](#feature-fs) and [`network`](#feature-network) options have support for a shortened version, that you can see [here](#root-shortened).
           
@@ -1751,7 +1769,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Changes file operations behavior based on user configuration.
           
-          See the file operations [reference](https://mirrord.dev/docs/reference/fileops/) for more details, and [fs advanced](#fs-advanced) for more information on how to fully setup mirrord file operations.
+          See the file operations [reference](https://metalbear.co/mirrord/docs/reference/fileops/) for more details, and [fs advanced](#fs-advanced) for more information on how to fully setup mirrord file operations.
           
           ### Minimal `fs` config {#fs-minimal}
           
@@ -1976,7 +1994,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Controls the incoming TCP traffic feature.
           
-          See the incoming [reference](https://mirrord.dev/docs/reference/traffic/#incoming) for more details.
+          See the incoming [reference](https://metalbear.co/mirrord/docs/reference/traffic/#incoming) for more details.
           
           Incoming traffic supports 2 modes of operation:
           
@@ -2198,7 +2216,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Controls mirrord network operations.
           
-          See the network traffic [reference](https://mirrord.dev/docs/reference/traffic/) for more details.
+          See the network traffic [reference](https://metalbear.co/mirrord/docs/reference/traffic/) for more details.
           
           ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] }, "outgoing": { "tcp": true, "udp": true, "filter": { "local": ["tcp://1.1.1.0/24:1337", "1.1.5.0/24", "google.com", ":53"] }, "ignore_localhost": false, "unix_streams": "bear.+" }, "dns": { "enabled": true, "filter": { "local": ["1.1.1.0/24:1337", "1.1.5.0/24", "google.com"] } } } } } ```
         "%
@@ -2237,7 +2255,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Tunnel outgoing network operations through mirrord.
           
-          See the outgoing [reference](https://mirrord.dev/docs/reference/traffic/#outgoing) for more details.
+          See the outgoing [reference](https://metalbear.co/mirrord/docs/reference/traffic/#outgoing) for more details.
           
           The `remote` and `local` config for this feature are **mutually** exclusive.
           
@@ -2480,6 +2498,8 @@ let rec _js2n__-refsenv
           Specifies the running pod (or deployment) to mirror.
           
           Supports: - `targetless` - `pod/{pod-name}[/container/{container-name}]`; - `deployment/{deployment-name}[/container/{container-name}]`; - `rollout/{rollout-name}[/container/{container-name}]`; - `job/{job-name}[/container/{container-name}]`; - `cronjob/{cronjob-name}[/container/{container-name}]`; - `statefulset/{statefulset-name}[/container/{container-name}]`; - `service/{service-name}[/container/{container-name}]`; - `replicaset/{replicaset-name}[/container/{container-name}]`;
+          
+          Used to derive `TargetType` via the strum crate
         "%
         = _js2n__-prdslib.anyOf
             [
@@ -2795,7 +2815,7 @@ let rec _js2n__-refsenv
           
           Runs `endswith` on the binary path (so `bash` would apply to any binary ending with `bash` while `/usr/bin/bash` would apply only for that binary).
           
-          ```json { "sip_binaries": "bash;python" } ```
+          ```json { "sip_binaries": ["bash", "python"] } ```
         "%
         | optional,
       skip_build_tools
@@ -2810,6 +2830,25 @@ let rec _js2n__-refsenv
           Build-Tools: `["as", "cc", "ld", "go", "air", "asm", "cc1", "cgo", "dlv", "gcc", "git", "link", "math", "cargo", "hpack", "rustc", "compile", "collect2", "cargo-watch", "debugserver"]`
         "%
         | optional,
+      skip_extra_build_tools
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/VecOrSingle_for_String!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          Allows mirrord to skip the specified build tools. Useful when running command lines that build and run the application in a single command.
+          
+          Must also enable [`skip_build_tools`](#root-skip_build_tools) for this to take an effect.
+          
+          It's similar to [`skip_processes`](#root-skip_processes), except that here it also skips SIP patching.
+          
+          Accepts a single value, or an array of values.
+          
+          ```json { "skip_extra_build_tools": ["bash", "node"] } ```
+        "%
+        | optional,
       skip_processes
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -2820,9 +2859,26 @@ let rec _js2n__-refsenv
         | doc m%"
           Allows mirrord to skip unwanted processes.
           
-          Useful when process A spawns process B, and the user wants mirrord to operate only on process B. Accepts a single value, or multiple values separated by `;`.
+          Useful when process A spawns process B, and the user wants mirrord to operate only on process B. Accepts a single value, or an array of values.
           
-          ```json { "skip_processes": "bash;node" } ```
+          ```json { "skip_processes": ["bash", "node"] } ```
+        "%
+        | optional,
+      skip_sip
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/VecOrSingle_for_String!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          Allows mirrord to skip patching (macOS SIP) unwanted processes.
+          
+          When patching is skipped, mirrord will no longer be able to load into the process and its child processes.
+          
+          Defaults to `{ "skip_sip": "git" }`
+          
+          When specified, the given value will replace the default list rather than being added to.
         "%
         | optional,
       target

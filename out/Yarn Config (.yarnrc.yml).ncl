@@ -900,18 +900,16 @@ let rec _js2n__-refsenv
       "_js2n__-:properties/enableNetwork!predicate"
         | doc "If false, Yarn will never make any request to the network by itself, and will throw an exception rather than let it happen. It's a very useful setting for CI, which typically want to make sure they aren't loading their dependencies from the network by mistake."
         = _js2n__-prdslib.isType '"Bool",
-      "_js2n__-:properties/httpProxy!predicate"
-        | doc "Only HTTP proxies are supported at the moment."
-        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:properties/httpProxy!predicate" =
+        _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/httpsCaFilePath!predicate" =
         _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/httpsCertFilePath!predicate" =
         _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/httpsKeyFilePath!predicate" =
         _js2n__-prdslib.isType '"String",
-      "_js2n__-:properties/httpsProxy!predicate"
-        | doc "Only HTTP proxies are supported at the moment."
-        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:properties/httpsProxy!predicate" =
+        _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/npmAlwaysAuth!predicate"
         | doc "If true, authentication credentials will always be sent when sending requests to the registries. This shouldn't be needed unless you configured the registry to reference a private npm mirror."
         = _js2n__-prdslib.isType '"Bool",
@@ -1156,6 +1154,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType '"String",
                       _js2n__-prdslib.enum [ "public", "restricted" ]
                     ],
+              npmPublishProvenance = _js2n__-prdslib.isType '"Bool",
               npmPublishRegistry = _js2n__-prdslib.isType '"String",
               npmRegistries =
                 _js2n__-prdslib.allOf

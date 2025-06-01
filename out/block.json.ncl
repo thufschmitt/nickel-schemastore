@@ -974,6 +974,13 @@ let rec _js2n__-refsenv
                                     ],
                               meta = _js2n__-prdslib.isType '"String",
                               query = _js2n__-prdslib.isType 'Record,
+                              role =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "content", "local" ]
+                                    ],
                               selector = _js2n__-prdslib.isType '"String",
                               source =
                                 _js2n__-prdslib.allOf
@@ -1327,7 +1334,7 @@ let rec _js2n__-refsenv
           
           Plugins and Themes can also register custom block style for existing blocks.
           
-          https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles
+          https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles/
         "%
         | optional,
       supports

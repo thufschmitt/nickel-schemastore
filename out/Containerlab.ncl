@@ -969,7 +969,7 @@ let rec _js2n__-refsenv
                   key = _js2n__-prdslib.isType '"String",
                   key-size = _js2n__-prdslib.isType 'Integer,
                   validity-duration = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/certificate-config!predicate"
         | doc "Node's Certificate configuration option"
@@ -989,7 +989,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   validity-duration = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/config-config!predicate"
         | doc "containerlab config engine parameters"
@@ -997,8 +997,8 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
-                { vars = _js2n__-prdslib.isType 'Record, } {} true
-                _js2n__-prdslib.always
+                { vars = _js2n__-prdslib.isType 'Record, } {} false
+                _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/dns-config!predicate"
         | doc "Node's DNS configuration option"
@@ -1031,7 +1031,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String"),
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/extras-config!predicate"
         | doc "node's extra configurations"
@@ -1050,7 +1050,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/healthcheck-config!predicate"
         | doc "Node's Healthcheck configuration option"
@@ -1070,9 +1070,48 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   timeout = _js2n__-prdslib.isType 'Integer,
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/link-config!predicate"
+      "_js2n__-:definitions/ipv4-addr!predicate"
+        | doc "IPv4 address"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern
+                "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?$"
+            ],
+      "_js2n__-:definitions/ipv6-addr!predicate"
+        | doc "IPv6 address"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern
+                "^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%[\\p{N}\\p{L}]+)?$"
+            ],
+      "_js2n__-:definitions/labels!predicate"
+        | doc "container labels"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  ".+" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.arrays.minItems 1
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Number",
+                              _js2n__-prdslib.arrays.minItems 1
+                            ]
+                        ],
+                } true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/link-config-short!predicate"
         | doc "link configuration container"
         = _js2n__-prdslib.allOf
             [
@@ -1092,8 +1131,256 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.minItems 2,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
-                  vars = _js2n__-prdslib.isType 'Record,
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  vars =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vars!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/link-endpoint!predicate"
+        | doc "Common link endpoint object for extended link configs"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "interface", "node" ],
+              _js2n__-prdslib.records.record
+                {
+                  interface = _js2n__-prdslib.isType '"String",
+                  mac =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^(?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})"
+                        ],
+                  node = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/link-host-interface!predicate"
+        | doc "link-scoped variables used by config engine"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/link-type-dummy!predicate"
+        | doc ""
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "endpoint", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  endpoint =
+                    _js2n__-refsenv."_js2n__-:definitions/link-endpoint!predicate",
+                  labels =
+                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "dummy"
+                        ],
+                  vars =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vars!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/link-type-host!predicate"
+        | doc ""
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "endpoint", "host-interface", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  endpoint =
+                    _js2n__-refsenv."_js2n__-:definitions/link-endpoint!predicate",
+                  host-interface =
+                    _js2n__-refsenv."_js2n__-:definitions/link-host-interface!predicate",
+                  labels =
+                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "host"
+                        ],
+                  vars =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vars!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/link-type-macvlan!predicate"
+        | doc "Link definition describing a macvlan link endpoint configuration"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "endpoint", "host-interface", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  endpoint =
+                    _js2n__-refsenv."_js2n__-:definitions/link-endpoint!predicate",
+                  host-interface =
+                    _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  labels =
+                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "macvlan"
+                        ],
+                  vars =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vars!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/link-type-mgmt-net!predicate"
+        | doc "Link definition for management network interfaces"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "endpoint", "host-interface", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  endpoint =
+                    _js2n__-refsenv."_js2n__-:definitions/link-endpoint!predicate",
+                  host-interface =
+                    _js2n__-refsenv."_js2n__-:definitions/link-host-interface!predicate",
+                  labels =
+                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "mgmt-net"
+                        ],
+                  vars =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vars!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/link-type-veth!predicate"
+        | doc "Link definition to support the veth interfaces"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "endpoints", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  endpoints =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/link-endpoint!predicate",
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 2
+                        ],
+                  labels =
+                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "veth"
+                        ],
+                  vars =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vars!predicate",
                 } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/link-type-vxlan!predicate"
+        | doc ""
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "endpoint", "remote", "type", "udp-port", "vni" ],
+              _js2n__-prdslib.records.record
+                {
+                  endpoint =
+                    _js2n__-refsenv."_js2n__-:definitions/link-endpoint!predicate",
+                  labels =
+                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  remote =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vxlan-remote!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "vxlan"
+                        ],
+                  udp-port =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vxlan-udpport!predicate",
+                  vars =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vars!predicate",
+                  vni =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vxlan-vni!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/link-type-vxlan-stitched!predicate"
+        | doc ""
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "endpoint", "remote", "type", "udp-port", "vni" ],
+              _js2n__-prdslib.records.record
+                {
+                  endpoint =
+                    _js2n__-refsenv."_js2n__-:definitions/link-endpoint!predicate",
+                  labels =
+                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
+                  remote =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vxlan-remote!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "vxlan-stitch"
+                        ],
+                  udp-port =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vxlan-udpport!predicate",
+                  vars =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vars!predicate",
+                  vni =
+                    _js2n__-refsenv."_js2n__-:definitions/link-vxlan-vni!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/link-vars!predicate"
+        | doc "link-scoped variables used by config engine"
+        = _js2n__-prdslib.isType 'Record,
+      "_js2n__-:definitions/link-vxlan-remote!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ipv4-addr!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/ipv6-addr!predicate"
+            ],
+      "_js2n__-:definitions/link-vxlan-udpport!predicate"
+        | doc "Remote UDP port"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Integer,
+              _js2n__-prdslib.numbers.maximum 65535,
+              _js2n__-prdslib.numbers.minimum 1
+            ],
+      "_js2n__-:definitions/link-vxlan-vni!predicate"
+        | doc "VXLAN VNI"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Integer,
+              _js2n__-prdslib.numbers.maximum 16777215,
+              _js2n__-prdslib.numbers.minimum 1
+            ],
+      "_js2n__-:definitions/mtu!predicate"
+        | doc "MTU for the custom network"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Number",
+              _js2n__-prdslib.numbers.maximum 65535,
+              _js2n__-prdslib.numbers.minimum 1
             ],
       "_js2n__-:definitions/node-config!predicate"
         | doc "topology node configuration container"
@@ -1112,8 +1399,7 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.records.record
                           {
                             kind =
-                              _js2n__-prdslib.strings.pattern
-                                  "(srl|nokia_srlinux)",
+                              _js2n__-prdslib.strings.pattern "(nokia_srlinux)",
                           } {} true _js2n__-prdslib.always
                       ])
                     (_js2n__-prdslib.records.record
@@ -1135,10 +1421,15 @@ let rec _js2n__-refsenv
                                     "ixrh2",
                                     "ixrh3",
                                     "ixrh4",
+                                    "ixrh432d",
+                                    "ixrh5",
+                                    "ixrh564d",
+                                    "ixrh564o",
                                     "ixr6",
                                     "ixr6e",
                                     "ixr10",
                                     "ixr10e",
+                                    "ixr18e",
                                     "sxr1x44s",
                                     "sxr1d32d",
                                     "ixrx1b",
@@ -1153,8 +1444,7 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.records.record
                           {
                             kind =
-                              _js2n__-prdslib.strings.pattern
-                                  "(vr-sros|vr-nokia_sros)",
+                              _js2n__-prdslib.strings.pattern "(nokia_sros)",
                           } {} true _js2n__-prdslib.always
                       ])
                     (_js2n__-prdslib.records.record
@@ -1218,7 +1508,12 @@ let rec _js2n__-refsenv
                   cmd = _js2n__-prdslib.isType '"String",
                   config =
                     _js2n__-refsenv."_js2n__-:definitions/config-config!predicate",
-                  cpu = _js2n__-prdslib.isType 'Integer,
+                  cpu =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
                   cpu-set = _js2n__-prdslib.isType '"String",
                   dns =
                     _js2n__-prdslib.allOf
@@ -1237,16 +1532,9 @@ let rec _js2n__-refsenv
                               ".+" =
                                 _js2n__-prdslib.anyOf
                                     [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"String",
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ],
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"Number",
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ]
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.isType '"Bool"
                                     ],
                             } true _js2n__-prdslib.always
                         ],
@@ -1293,55 +1581,28 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum
                             [
-                              "srl",
                               "nokia_srlinux",
-                              "ceos",
                               "arista_ceos",
-                              "crpd",
                               "juniper_crpd",
                               "sonic-vs",
                               "sonic-vm",
-                              "vr-sros",
                               "nokia_sros",
-                              "vr-nokia_sros",
-                              "vr-vmx",
-                              "vr-juniper_vmx",
                               "juniper_vmx",
-                              "vr-vqfx",
-                              "vr-juniper_vqfx",
                               "juniper_vqfx",
-                              "vr-vsrx",
-                              "vr-juniper_vsrx",
                               "juniper_vsrx",
                               "juniper_vjunosrouter",
                               "juniper_vjunosswitch",
                               "juniper_vjunosevolved",
-                              "vr-xrv",
-                              "vr-cisco_xrv",
                               "cisco_xrv",
-                              "vr-xrv9k",
-                              "vr-cisco_xrv9k",
                               "cisco_xrv9k",
-                              "vr-veos",
-                              "vr-arista_veos",
                               "arista_veos",
-                              "vr-csr",
-                              "vr-cisco_csr",
                               "cisco_csr1000v",
-                              "vr-pan",
-                              "vr-paloalto_panos",
                               "paloalto_panos",
-                              "vr-ros",
-                              "vr-mikrotik_ros",
                               "mikrotik_ros",
-                              "vr-n9kv",
-                              "vr-cisco_n9kv",
                               "cisco_n9kv",
                               "cisco_ftdv",
                               "dell_ftosv",
                               "dell_sonic",
-                              "vr-aoscx",
-                              "vr-aruba_aoscx",
                               "aruba_aoscx",
                               "linux",
                               "bridge",
@@ -1352,62 +1613,30 @@ let rec _js2n__-refsenv
                               "ipinfusion_ocnos",
                               "checkpoint_cloudguard",
                               "ext-container",
-                              "xrd",
                               "rare",
                               "cisco_xrd",
-                              "c8000",
                               "cisco_c8000",
                               "cisco_c8000v",
                               "cisco_cat9kv",
                               "cisco_iol",
-                              "cvx",
                               "cumulus_cvx",
                               "huawei_vrp",
                               "openbsd",
                               "freebsd",
                               "generic_vm",
                               "fortinet_fortigate",
-                              "k8s-kind"
+                              "k8s-kind",
+                              "fdio_vpp"
                             ]
                         ],
                   labels =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {}
-                            {
-                              ".+" =
-                                _js2n__-prdslib.anyOf
-                                    [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"String",
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ],
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"Number",
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ]
-                                    ],
-                            } true _js2n__-prdslib.always
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
                   license = _js2n__-prdslib.isType '"String",
                   memory = _js2n__-prdslib.isType '"String",
                   mgmt-ipv4 =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern
-                            "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?$"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/ipv4-addr!predicate",
                   mgmt-ipv6 =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern
-                            "^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%[\\p{N}\\p{L}]+)?$"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/ipv6-addr!predicate",
                   network-mode =
                     _js2n__-prdslib.allOf
                         [
@@ -1426,7 +1655,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.strings.pattern
                                   "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?:([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]):([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$|^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?:([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]):([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])+(/tcp|/udp|/sctp)$|^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]):([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$|^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]):([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])+(/tcp|/udp|/sctp)$|^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$|^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])-([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]):([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])+(/tcp|/udp|/sctp)?$"
                               ]),
-                          _js2n__-prdslib.arrays.minItems 1,
+                          _js2n__-prdslib.arrays.minItems 0,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   restart-policy =
@@ -1479,16 +1708,41 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/stage-exec!predicate"
         | doc "per-stage exec configuration"
-        = _js2n__-prdslib.allOf
+        = _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  on-enter =
-                    _js2n__-refsenv."_js2n__-:definitions/stage-exec-list!predicate",
-                  on-exit =
-                    _js2n__-refsenv."_js2n__-:definitions/stage-exec-list!predicate",
-                } {} true _js2n__-prdslib.always
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
+                    {
+                      on-enter =
+                        _js2n__-refsenv."_js2n__-:definitions/stage-exec-list!predicate",
+                      on-exit =
+                        _js2n__-refsenv."_js2n__-:definitions/stage-exec-list!predicate",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "command", "phase" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            command = _js2n__-prdslib.isType '"String",
+                            phase =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum
+                                      [ "on-enter", "on-exit" ]
+                                  ],
+                            target = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ])
+                ]
             ],
       "_js2n__-:definitions/stage-exec-list!predicate"
         | doc "list of commands to execute"
@@ -1609,12 +1863,7 @@ let rec _js2n__-refsenv
                 {
                   bridge = _js2n__-prdslib.isType '"String",
                   ipv4-gw =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern
-                            "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\\p{N}\\p{L}]+)?$"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/ipv4-addr!predicate",
                   ipv4-range =
                     _js2n__-prdslib.allOf
                         [
@@ -1632,8 +1881,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern
-                            "^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(%[\\p{N}\\p{L}]+)?$"
+                          _js2n__-refsenv."_js2n__-:definitions/ipv6-addr!predicate"
                         ],
                   ipv6-range =
                     _js2n__-prdslib.allOf
@@ -1649,15 +1897,9 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.strings.pattern
                             "(^.+/[0-9]{1,3}$)|(auto)"
                         ],
-                  mtu =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Number",
-                          _js2n__-prdslib.numbers.maximum 65535,
-                          _js2n__-prdslib.numbers.minimum 1
-                        ],
+                  mtu = _js2n__-refsenv."_js2n__-:definitions/mtu!predicate",
                   network = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ])
         | doc "configuration container for management network"
         | optional,
@@ -1676,7 +1918,7 @@ let rec _js2n__-refsenv
                 {
                   certificate-authority =
                     _js2n__-refsenv."_js2n__-:definitions/certificate-authority-config!predicate",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ])
         | doc "Global containerlab settings"
         | optional,
@@ -1698,33 +1940,41 @@ let rec _js2n__-refsenv
                             {
                               arista_ceos =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              aruba_aoscx =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               bridge =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              c8000 =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              c8000v =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              ceos =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               checkpoint_cloudguard =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              cisco_8000 =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              cisco_c8000v =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               cisco_cat9kv =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              cisco_csr =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               cisco_ftdv =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               cisco_iol =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              crpd =
+                              cisco_nxos =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              cisco_xrd =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              cisco_xrv =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              cisco_xrv9k =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               cumulus_cvx =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              cvx =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               dell_ftosv =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               dell_sonic =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               ext-container =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              fdio_vpp =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               freebsd =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
@@ -1744,13 +1994,17 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               juniper_vjunosswitch =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              juniper_vmx =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              juniper_vsrx =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               keysight_ixia-c-one =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               linux =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              mysocketio =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               nokia_srlinux =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              nokia_sros =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               openbsd =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
@@ -1762,52 +2016,24 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               sonic-vs =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              srl =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-aoscx =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-arista_veos =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-aruba_aoscx =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-cisco_csr =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-cisco_nxos =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-cisco_xrv =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-cisco_xrv9k =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-csr =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-juniper_vmx =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-juniper_vsrx =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-nokia_sros =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-nxos =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-sros =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-vmx =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-vsrx =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-xrv =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              vr-xrv9k =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                              xrd =
-                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                            } {} true _js2n__-prdslib.always
+                            } {} false _js2n__-prdslib.never
                         ],
                   links =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/link-config!predicate",
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/link-config-short!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/link-type-veth!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/link-type-mgmt-net!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/link-type-macvlan!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/link-type-host!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/link-type-vxlan!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/link-type-vxlan-stitched!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/link-type-dummy!predicate"
+                              ]),
                           _js2n__-prdslib.arrays.minItems 1
                         ],
                   nodes =
@@ -1824,7 +2050,7 @@ let rec _js2n__-refsenv
                                     ],
                             } true _js2n__-prdslib.always
                         ],
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ])
         | doc "topology configuration container",
     }

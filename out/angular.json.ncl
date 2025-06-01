@@ -1241,6 +1241,7 @@ let rec _js2n__-refsenv
                                     "@angular/build:extract-i18n",
                                     "@angular/build:karma",
                                     "@angular/build:ng-packagr",
+                                    "@angular/build:unit-test",
                                     "@angular-devkit/build-angular:application",
                                     "@angular-devkit/build-angular:app-shell",
                                     "@angular-devkit/build-angular:browser",
@@ -1424,6 +1425,24 @@ let rec _js2n__-refsenv
                       builder =
                         _js2n__-prdslib.const
                             "@angular-devkit/build-angular:extract-i18n",
+                      configurations =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record {} {} true
+                                _js2n__-prdslib.always
+                            ],
+                      defaultConfiguration = _js2n__-prdslib.isType '"String",
+                      options = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
+                    {
+                      builder =
+                        _js2n__-prdslib.const "@angular/build:unit-test",
                       configurations =
                         _js2n__-prdslib.allOf
                             [

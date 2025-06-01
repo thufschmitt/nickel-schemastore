@@ -913,7 +913,198 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+              _js2n__-prdslib.records.record
+                {
+                  rules =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LintRules!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LintRules!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  key-empty =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/SeverityLevelDefaultWarn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LspCompletion!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LspDiagnostics!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LspDocumentLink!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LspFormatting!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LspGotoDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LspHover!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LspOptions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  completion =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LspCompletion!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  diagnostics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LspDiagnostics!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  document-link =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LspDocumentLink!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  formatting =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LspFormatting!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  goto-declaration =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LspGotoDefinition!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  goto-definition =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LspGotoDefinition!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  goto-type-definition =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LspGotoDefinition!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  hover =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LspHover!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/OldSubSchema!predicate"
+        | doc "This is for backward compatibility."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "include", "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  include =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  path = _js2n__-prdslib.isType '"String",
+                  root-keys =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/OneOrMany_for_SchemaCatalogPath!predicate" =
         _js2n__-prdslib.anyOf
@@ -954,7 +1145,8 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.anyOf
             [
               _js2n__-refsenv."_js2n__-:definitions/RootSchema!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/SubSchema!predicate"
+              _js2n__-refsenv."_js2n__-:definitions/SubSchema!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/OldSubSchema!predicate"
             ],
       "_js2n__-:definitions/SchemaCatalog!predicate" =
         _js2n__-prdslib.allOf
@@ -999,94 +1191,14 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/ServerCompletion!predicate" =
+      "_js2n__-:definitions/SeverityLevel!predicate" =
         _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  enabled =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                } {} false _js2n__-prdslib.never
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "off", "warn", "error" ]
             ],
-      "_js2n__-:definitions/ServerDiagnostics!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  enabled =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/ServerFormatting!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  enabled =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/ServerHover!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  enabled =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/BoolDefaultTrue!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/ServerOptions!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  completion =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/ServerCompletion!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                  diagnostics =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/ServerDiagnostics!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                  formatting =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/ServerFormatting!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                  hover =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/ServerHover!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
+      "_js2n__-:definitions/SeverityLevelDefaultWarn!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/SeverityLevel!predicate",
       "_js2n__-:definitions/SubSchema!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1103,7 +1215,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.minItems 1
                         ],
                   path = _js2n__-prdslib.isType '"String",
-                  root-keys =
+                  root =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.anyOf
@@ -1165,6 +1277,12 @@ let rec _js2n__-refsenv
                       _js2n__-refsenv."_js2n__-:definitions/LintOptions!predicate",
                       _js2n__-prdslib.isType 'Null
                     ],
+              lsp =
+                _js2n__-prdslib.anyOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/LspOptions!predicate",
+                      _js2n__-prdslib.isType 'Null
+                    ],
               schema =
                 _js2n__-prdslib.anyOf
                     [
@@ -1185,7 +1303,7 @@ let rec _js2n__-refsenv
               server =
                 _js2n__-prdslib.anyOf
                     [
-                      _js2n__-refsenv."_js2n__-:definitions/ServerOptions!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/LspOptions!predicate",
                       _js2n__-prdslib.isType 'Null
                     ],
               toml-version =

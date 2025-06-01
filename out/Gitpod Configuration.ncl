@@ -1105,8 +1105,14 @@ let rec _js2n__-refsenv
             name | String | doc "Port name." | optional,
             onOpen
               | std.enum.TagOrString
-              | [| 'ignore, 'notify, 'open-preview, 'open-browser |]
-              | doc "What to do when a service on this port was detected. 'notify' (default) will show a notification asking the user what to do. 'open-browser' will open a new browser tab. 'open-preview' will open in the preview on the right of the IDE. 'ignore' will do nothing."
+              | [|
+                'ignore-completely,
+                'ignore,
+                'notify,
+                'open-preview,
+                'open-browser
+              |]
+              | doc "What to do when a service on this port was detected. 'notify' (default) will show a notification asking the user what to do. 'open-browser' will open a new browser tab. 'open-preview' will open in the preview on the right of the IDE. 'ignore' will do nothing. 'ignore-completely' will do nothing and prevent port forwarding."
               | optional,
             port
               | _js2n__-prdslib.contract_from_predicate

@@ -897,6 +897,15 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/cron!contract"
+        | doc "Cron expression in the format: `minute hour day month weekday`"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.strings.pattern
+                  "^([0-5]?\\d) ([01]?\\d|2[0-3]) ([1-9]|[12]\\d|3[01]) ([1-9]|1[012]) ([0-6])$"
+              ]),
       "_js2n__-:definitions/date!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.isType '"String"),
@@ -1016,22 +1025,22 @@ let rec _js2n__-refsenv
             | {
               plex_path
                 | String
-                | doc "The path for the Plex Media Server to use to access auto-generated prerolls"
-                | optional,
+                | doc "The path for the Plex Media Server to use to access auto-generated prerolls",
               recently_added
                 | {
                   count
                     | _js2n__-refsenv."_js2n__-:definitions/positiveInteger!contract"
-                    | doc "The number of recently added media to include as prerolls"
-                    | optional,
+                    | doc "The number of recently added media to include as prerolls",
                   enabled
                     | _js2n__-refsenv."_js2n__-:definitions/enabled!contract"
-                    | doc "Whether auto generation from recently added media is enabled"
+                    | doc "Whether auto generation from recently added media is enabled",
+                  trailer_cutoff_year
+                    | _js2n__-refsenv."_js2n__-:definitions/positiveInteger!contract"
+                    | doc "The year to use as a cutoff for trailers. Default is 1980"
                     | optional,
                   ..
                 }
-                | doc "Settings for auto-generating prerolls from recently added media"
-                | optional,
+                | doc "Settings for auto-generating prerolls from recently added media",
               ..
             }
             | doc "Settings for auto-generating prerolls"
@@ -1138,6 +1147,20 @@ let rec _js2n__-refsenv
           ..
         }
         | doc "Settings for the Plex server",
+      run
+        | {
+          dry_run
+            | Bool
+            | doc "Whether to run in dry run mode (don't actually make changes to Plex)"
+            | optional,
+          schedule
+            | _js2n__-refsenv."_js2n__-:definitions/cron!contract"
+            | doc "The cron schedule for running the application"
+            | optional,
+          ..
+        }
+        | doc "Settings for running the application"
+        | optional,
       weekly
         | {
           enabled

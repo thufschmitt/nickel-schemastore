@@ -1486,8 +1486,8 @@ let rec _js2n__-refsenv
   {
       "$schema"
         | std.enum.TagOrString
-        | [| '"https://json.schemastore.org/abc-supply-plan-8.0.0.json" |]
-        | doc "Link to https://json.schemastore.org/abc-supply-plan-8.0.0.json",
+        | [| '"https://json.schemastore.org/abc-supply-plan-9.0.0.json" |]
+        | doc "Link to https://json.schemastore.org/abc-supply-plan-9.0.0.json",
       abcMaterialsMap
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1512,6 +1512,7 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.isType 'Record,
                         _js2n__-prdslib.records.required
                           [
+                            "excludeMonthsFromBeginning",
                             "excludeMonthsFromEnd",
                             "id",
                             "metrics",
@@ -1522,12 +1523,10 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.records.record
                           {
+                            excludeMonthsFromBeginning =
+                              _js2n__-prdslib.isType '"Number",
                             excludeMonthsFromEnd =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"Number",
-                                    _js2n__-prdslib.numbers.minimum 0
-                                  ],
+                              _js2n__-prdslib.isType '"Number",
                             id = _js2n__-prdslib.isType '"String",
                             metrics =
                               _js2n__-prdslib.allOf
@@ -1678,6 +1677,7 @@ let rec _js2n__-refsenv
                                             [
                                               "abcMaterialIDs",
                                               "color",
+                                              "comparisonPlanID",
                                               "label",
                                               "metricType",
                                               "showQuantitiesAs",
@@ -1699,6 +1699,14 @@ let rec _js2n__-refsenv
                                               color =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              comparisonPlanID =
+                                                _js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.isType
+                                                        'Null
+                                                    ],
                                               label =
                                                 _js2n__-prdslib.isType
                                                     '"String",
